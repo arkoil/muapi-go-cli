@@ -1,0 +1,1 @@
+module "github.com/gpbbit/muapi-go-cli"
