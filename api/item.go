@@ -35,7 +35,7 @@ func (item Item) Validate() error {
 	if item.Region == "" {
 		errors = append(errors, "the 'name' must exist ")
 	}
-	if len(errors)>0 {
+	if len(errors) > 0 {
 		return &RequestValidationError{messages: errors, model: "Item", method: "Validate"}
 	}
 	return nil
