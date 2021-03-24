@@ -3,6 +3,7 @@ package api
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"fmt"
 	"net/url"
 	"strings"
 )
@@ -12,6 +13,19 @@ type Request struct {
 	publicKey string `json:"public_key"`
 	data      string `json:"data"`
 	meta      string
+}
+
+type RequestQuery map[string]string
+
+type RequestValidationError struct {
+	messages []string
+	model    string
+	method   string
+}
+
+func (rve *RequestValidationError) Error() string {
+	msgs := strings.Join(rve.messages, ", ")
+	return fmt.Sprintf("Error validation at %s, method: %s: %s", rve.model, rve.method, msgs)
 }
 
 func (api MUAPI) Sign(data string) string {

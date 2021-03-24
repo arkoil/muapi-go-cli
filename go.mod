@@ -1,1 +1,3 @@
-module "github.com/gpbbit/muapi-go-cli"
+module github.com/gpbbit/muapi-go-cli
+
+go 1.16

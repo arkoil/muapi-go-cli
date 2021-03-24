@@ -1,6 +1,8 @@
 package api
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type ResponseError struct {
 	message string
@@ -14,9 +16,9 @@ type Response struct {
 	Success    bool            `json:"success"`
 	ServerTime int             `json:"server_time"`
 	Meta       string          `json:"meta"`
-	Message    string          `json:"message"`
+	Message    json.RawMessage `json:"message"`
 	Error      string          `json:"error"`
-	Data       json.RawMessage `json:"data"`
+	Data       json.RawMessage `json:"data,omitempty"`
 }
 
 func ResponseParse(resp []byte) (*Response, error) {
