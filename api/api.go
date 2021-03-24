@@ -122,8 +122,20 @@ func (api MUAPI) CatalogAdd(catalog Catalog, paramMeta ...string) (string, error
 	if err != nil {
 		return "", err
 	}
+	if catalog.ParentId!="" {
+		if !contains(catalog.Parents, catalog.ParentId){
+			catalog.Parents = append(catalog.Parents, catalog.ParentId)
+			res, err := api.CatalogCheckParents(catalog.Parents)
+			if err!=nil {
+				return "", err
+			}
+			if !res {
+				var err CatalogParentError
+				return "", err
+			}
+		}
+	}
 	data := CatalogAddData{ResourceName: api.Resource.Name, Catalog: catalog, Data: NewData()}
-	//TODO check parent
 	var meta string
 	checkMeta(&meta, paramMeta)
 	_, res, err := api.Request2Api("catalogAdd", data, meta)
@@ -154,6 +166,23 @@ func (api MUAPI) Items(itemsQuery RequestQuery, paramMeta ...string) (string, er
 	return string(res.Data), err
 }
 func (api MUAPI) ItemAdd(item Item, paramMeta ...string) (string, error) {
+	err := item.Validate()
+	if err != nil {
+		return "", err
+	}
+	if item.CatalogId!="" {
+		if !contains(item.Catalogs, item.CatalogId){
+			item.Catalogs = append(item.Catalogs, item.CatalogId)
+			res, err := api.CatalogCheckParents(item.Catalogs)
+			if err!=nil {
+				return "", err
+			}
+			if !res {
+				var err CatalogParentError
+				return "", err
+			}
+		}
+	}
 	data := ItemAddData{ResourceName: api.Resource.Name, Item: item, Data: NewData()}
 	//TODO check catalog
 	var meta string
@@ -200,17 +229,20 @@ func (api MUAPI) CatalogFindByIds(ids []string, paramMeta ...string) (string, er
 	return string(res.Data), err
 
 }
-func (api MUAPI) CatalogCheckParents(ids []string) error {
+func (api MUAPI) CatalogCheckParents(ids []string) (bool, error) {
 	catalogs := make([]Catalog, len(ids))
 	res, err := api.CatalogFindByIds(ids)
 	if err != nil {
-		return err
+		return false, err
 	}
-	err = json.Unmarshal([]byte(res), catalogs)
+	err = json.Unmarshal([]byte(res), &catalogs)
 	if err != nil {
-		return err
+		return false, err
 	}
-	return nil
+	if len(ids) != len(catalogs) {
+		return false, err
+	}
+	return true, nil
 }
 func (api MUAPI) Request2Api(endpoint string, data RequestData, meta string) (string, *Response, error) {
 	uri := api.host + api.port + Endpoints[endpoint]

@@ -4,14 +4,6 @@ import (
 	"encoding/json"
 )
 
-type ResponseError struct {
-	message string
-}
-
-func (re *ResponseError) Error() string {
-	return re.message
-}
-
 type Response struct {
 	Success    bool            `json:"success"`
 	ServerTime int             `json:"server_time"`

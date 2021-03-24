@@ -65,7 +65,12 @@ func TestMUAPI_CatalogAdd(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	catalog := Catalog{Name: "одежда", URL: "https://www.wildberries.ru/catalog/muzhchinam/odezhda", Region: "Moscow", ParentId: "604e0c39c11b3a7dc7a35d01"}
+	catalog := Catalog{
+		Name: "брюки",
+		URL: "https://www.wildberries.ru/catalog/muzhchinam/odezhda/bryuki-i-shorty",
+		Region: "Moscow",
+		ParentId: "604de597c11b3a65e50319f5",
+	}
 	_, err = api.CatalogAdd(catalog)
 	if err != nil {
 		t.Error(err)
@@ -97,7 +102,7 @@ func TestMUAPI_ItemAdd(t *testing.T) {
 		Name:      "Футболка",
 		URL:       "https://www.wildberries.ru/catalog/11566676/detail.aspx?targetUrl=GP",
 		Region:    "Moscow",
-		CatalogId: "604e0c39c11b3a7dc7a35d01",
+		CatalogId: "605af44fc11b3a64ede0c961",
 		Catalogs:  catalogs,
 	}
 	_, err = api.ItemAdd(item)
