@@ -1,6 +1,7 @@
-package api
+package muapi_go_cli
 
 import (
+	cli "github.com/gpbbit/muapi-go-cli/api"
 	"net/http"
 	"testing"
 )
@@ -10,7 +11,7 @@ const ValidResourceURL = "https://www.wildberries.ru/"
 
 func TestNewApi(t *testing.T) {
 	client := &http.Client{}
-	api, err := New(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
+	api, err := NewAPI(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
 	defVal := "wb"
 	if err != nil {
 		t.Error(err)
@@ -23,7 +24,7 @@ func TestNewApi(t *testing.T) {
 
 func TestMUAPI_Auth(t *testing.T) {
 	client := &http.Client{}
-	api, err := New(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
+	api, err := NewAPI(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
 	if err != nil {
 		t.Error(err)
 	}
@@ -36,7 +37,7 @@ func TestMUAPI_Auth(t *testing.T) {
 
 func TestMUAPI_ResourceGet(t *testing.T) {
 	client := &http.Client{}
-	api, err := New(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
+	api, err := NewAPI(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
 	if err != nil {
 		t.Error(err)
 	}
@@ -48,7 +49,7 @@ func TestMUAPI_ResourceGet(t *testing.T) {
 
 func TestMUAPI_Catalogs(t *testing.T) {
 	client := &http.Client{}
-	api, err := New(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
+	api, err := NewAPI(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
 	if err != nil {
 		t.Error(err)
 	}
@@ -61,11 +62,11 @@ func TestMUAPI_Catalogs(t *testing.T) {
 
 func TestMUAPI_CatalogAdd(t *testing.T) {
 	client := &http.Client{}
-	api, err := New(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
+	api, err := NewAPI(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
 	if err != nil {
 		t.Error(err)
 	}
-	catalog := Catalog{
+	catalog := cli.Catalog{
 		Name: "брюки",
 		URL: "https://www.wildberries.ru/catalog/muzhchinam/odezhda/bryuki-i-shorty",
 		Region: "Moscow",
@@ -79,7 +80,7 @@ func TestMUAPI_CatalogAdd(t *testing.T) {
 
 func TestMUAPI_Items(t *testing.T) {
 	client := &http.Client{}
-	api, err := New(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
+	api, err := NewAPI(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
 	if err != nil {
 		t.Error(err)
 	}
@@ -92,13 +93,13 @@ func TestMUAPI_Items(t *testing.T) {
 
 func TestMUAPI_ItemAdd(t *testing.T) {
 	client := &http.Client{}
-	api, err := New(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
+	api, err := NewAPI(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
 	if err != nil {
 		t.Error(err)
 	}
 	catalogs := make([]string, 1)
 	catalogs[0] = "604de597c11b3a65e50319f5"
-	item := Item{
+	item := cli.Item{
 		Name:      "Футболка",
 		URL:       "https://www.wildberries.ru/catalog/11566676/detail.aspx?targetUrl=GP",
 		Region:    "Moscow",
@@ -113,7 +114,7 @@ func TestMUAPI_ItemAdd(t *testing.T) {
 
 func TestMUAPI_CatalogFindByIds(t *testing.T) {
 	client := &http.Client{}
-	api, err := New(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
+	api, err := NewAPI(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
 	if err != nil {
 		t.Error(err)
 	}
