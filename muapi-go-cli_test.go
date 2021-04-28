@@ -91,6 +91,10 @@ func TestMUAPI_Items(t *testing.T) {
 	}
 }
 
+type itemAdditional struct {
+	Colors []string `json:"colors"`
+	Data []byte `json:"data"`
+}
 func TestMUAPI_ItemAdd(t *testing.T) {
 	client := &http.Client{}
 	api, err := NewAPI(client, "qqqq", "xxxx", ValidResourceName, ValidResourceURL, "http://localhost", ":4000")
@@ -99,12 +103,20 @@ func TestMUAPI_ItemAdd(t *testing.T) {
 	}
 	catalogs := make([]string, 1)
 	catalogs[0] = "604de597c11b3a65e50319f5"
+	colors := make([]string, 0, 1)
+	colors = append(colors, "red")
+	data := make([]byte, 0)
+	iAdditional := itemAdditional{
+		Colors: colors,
+		Data: data,
+	}
 	item := cli.Item{
 		Name:      "Футболка",
 		URL:       "https://www.wildberries.ru/catalog/11566676/detail.aspx?targetUrl=GP",
 		Region:    "Moscow",
 		CatalogId: "605af44fc11b3a64ede0c961",
 		Catalogs:  catalogs,
+		Additional: iAdditional,
 	}
 	_, err = api.ItemAdd(item)
 	if err != nil {
